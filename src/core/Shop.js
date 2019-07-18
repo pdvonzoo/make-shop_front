@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import { getCategories } from "./apiCore";
 import Card from "./Card";
+import Checkbox from "./Checkbox";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
@@ -28,7 +29,12 @@ const Shop = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-4">{JSON.stringify(categories)}</div>
+        <div className="col-4">
+          <ul>
+            <h4>Filter by Category</h4>
+            <Checkbox categories={categories} />
+          </ul>
+        </div>
         <div className="col-8">right</div>
       </div>
     </Layout>
