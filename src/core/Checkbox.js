@@ -19,7 +19,7 @@ const Checkbox = ({ categories, handleFilters }) => {
     <li key={i} className="list-unstyled">
       <input
         onChange={handleToggle(c._id)}
-        value={console.log(checked.indexOf(c._id === -1))}
+        value={checked.indexOf(c._id === -1)}
         type="checkbox"
         className="form-check-input"
       />
