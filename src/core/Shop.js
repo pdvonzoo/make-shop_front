@@ -22,6 +22,10 @@ const Shop = () => {
     init();
   }, []);
 
+  const handleFilters = (filters, filterBy) => {
+    console.log(filters, filterBy);
+  };
+
   return (
     <Layout
       title="Shop Page"
@@ -32,7 +36,10 @@ const Shop = () => {
         <div className="col-4">
           <ul>
             <h4>Filter by Category</h4>
-            <Checkbox categories={categories} />
+            <Checkbox
+              categories={categories}
+              handleFilters={filters => handleFilters(filters, "category")}
+            />
           </ul>
         </div>
         <div className="col-8">right</div>
