@@ -9,7 +9,7 @@ export const getProducts = sortBy => {
     .catch(err => console.log(err));
 };
 
-export const getCategories = sortBy => {
+export const getCategories = () => {
   return fetch(`${API}/categories`, {
     method: "GET"
   })
@@ -83,6 +83,20 @@ export const processPayment = (userId, token, paymentData) => {
       Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(paymentData)
+  })
+    .then(response => response.json())
+    .catch(err => console.log(err));
+};
+
+export const createOrder = (userId, token, createOrderData) => {
+  return fetch(`${API}/order/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ order: createOrderData })
   })
     .then(response => response.json())
     .catch(err => console.log(err));

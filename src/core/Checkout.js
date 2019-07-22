@@ -3,7 +3,8 @@ import Layout from "./Layout";
 import {
   getProducts,
   getBraintreeClientToken,
-  processPayment
+  processPayment,
+  createOrder
 } from "./apiCore";
 import { emptyCart } from "./cartHelpers";
 import Card from "./Card";
@@ -39,6 +40,10 @@ const Checkout = ({ products }) => {
     getToken(userId, token);
   }, []);
 
+  const handleAddress = event => {
+    setData({ ...data, address: event.target.value });
+  };
+
   const getTotal = () => {
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
@@ -54,6 +59,8 @@ const Checkout = ({ products }) => {
       </Link>
     );
   };
+
+  let deliveryAddress = data.address;
 
   const buy = () => {
     setData({ loading: true });
@@ -75,11 +82,28 @@ const Checkout = ({ products }) => {
 
         processPayment(userId, token, paymentData)
           .then(response => {
-            setData({ ...data, success: response.success });
-            emptyCart(() => {
-              console.log("payment success and empty cart");
-              setData({ loading: false });
-            });
+            console.log(response);
+            const createOrderData = {
+              products: products,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount,
+              address: deliveryAddress
+            };
+            createOrder(userId, token, createOrderData)
+              .then(response => {
+                emptyCart(() => {
+                  console.log("payment success and empty cart");
+                  setData({
+                    ...data,
+                    loading: false,
+                    success: true
+                  });
+                });
+              })
+              .catch(error => {
+                console.log(error);
+                setData({ loading: false });
+              });
           })
           .catch(error => {
             console.log(error);
@@ -96,6 +120,15 @@ const Checkout = ({ products }) => {
     <div onBlur={() => setData({ ...data, error: "" })}>
       {data.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className="gorm-group mb-3">
+            <label className="text-muted">Delivery address:</label>
+            <textarea
+              onChange={handleAddress}
+              className="form-control"
+              value={data.address}
+              placeholder="Type your delivery address here..."
+            />
+          </div>
           <DropIn
             options={{
               authorization: data.clientToken,
