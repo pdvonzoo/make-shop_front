@@ -60,6 +60,8 @@ const Checkout = ({ products }) => {
     );
   };
 
+  let deliveryAddress = data.address;
+
   const buy = () => {
     setData({ loading: true });
     let nonce;
@@ -80,11 +82,12 @@ const Checkout = ({ products }) => {
 
         processPayment(userId, token, paymentData)
           .then(response => {
+            console.log(response);
             const createOrderData = {
               products: products,
-              transaction_id: response.transaction_id,
+              transaction_id: response.transaction.id,
               amount: response.transaction.amount,
-              address: data.address
+              address: deliveryAddress
             };
             createOrder(userId, token, createOrderData)
               .then(response => {
@@ -93,7 +96,7 @@ const Checkout = ({ products }) => {
                   setData({
                     ...data,
                     loading: false,
-                    success: response.success
+                    success: true
                   });
                 });
               })
