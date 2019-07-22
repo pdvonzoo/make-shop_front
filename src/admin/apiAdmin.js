@@ -74,7 +74,7 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
 };
 
 export const getProducts = () => {
-  return fetch(`${API}/products`, {
+  return fetch(`${API}/products?limit=undefined`, {
     method: "GET"
   })
     .then(response => response.json())
@@ -95,7 +95,7 @@ export const deleteProduct = (productId, userId, token) => {
 };
 
 export const getProduct = productId => {
-  return fetch(`${API}/product/:${productId}`, {
+  return fetch(`${API}/product/${productId}`, {
     method: "GET"
   })
     .then(response => response.json())
@@ -103,7 +103,7 @@ export const getProduct = productId => {
 };
 
 export const updateProduct = (productId, userId, token, product) => {
-  return fetch(`${API}/order/${productId}/${userId}`, {
+  return fetch(`${API}/product/${productId}/${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
