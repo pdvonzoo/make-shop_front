@@ -15,7 +15,7 @@ export const read = (userId, token) => {
 
 export const update = (userId, token, user) => {
   return fetch(`${API}/user/${userId}`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -30,8 +30,8 @@ export const update = (userId, token, user) => {
 export const updateUser = (user, next) => {
   if (typeof window !== "undefined") {
     if (localStorage.getItem("jwt")) {
-      let auth = localStorage.getItem("jwt");
-      auth.user = user;
+      let auth = JSON.parse(localStorage.getItem("jwt"));
+      auth.user = user.user;
       localStorage.setItem("jwt", JSON.stringify(auth));
       next();
     }
