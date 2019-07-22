@@ -29,7 +29,7 @@ const Product = props => {
   useEffect(() => {
     const productId = props.match.params.productId;
     loadSingProduct(productId);
-  }, []);
+  }, [props]);
 
   return (
     <Layout
