@@ -54,23 +54,27 @@ const Home = () => {
       <Heading2>Recently Added</Heading2>
       <CardList>
         {productsByArrival.map((product, i) => (
-          <Card
-            key={product._id}
-            product={product}
-            showAddToCartButton={false}
-            showQuantity={false}
-          />
+          <div className="col-3">
+            <Card
+              key={product._id}
+              product={product}
+              showAddToCartButton={false}
+              showQuantity={false}
+            />
+          </div>
         ))}
       </CardList>
       <Heading2>Best Sellers</Heading2>
       <CardList>
         {productsBySell.map(product => (
-          <Card
-            key={product._id}
-            product={product}
-            showAddToCartButton={false}
-            showQuantity={false}
-          />
+          <div className="col-3">
+            <Card
+              key={product._id}
+              product={product}
+              showAddToCartButton={false}
+              showQuantity={false}
+            />
+          </div>
         ))}
       </CardList>
     </Layout>
