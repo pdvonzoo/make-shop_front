@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { isSelector } from "postcss-selector-parser";
 
 const Container = styled.div``;
 const Label = styled.label`

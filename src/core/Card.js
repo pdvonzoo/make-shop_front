@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import ShowImage from "./ShowImage";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
 
-const Container = styled(Link)`
-  width: 25%;
+const Container = styled.div`
+  width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
   margin-bottom: 2rem;
@@ -29,6 +31,7 @@ const Price = styled.p`
 const Btn = styled.button`
   float: right;
   background-color: unset;
+  border: 0;
 `;
 
 const Card = ({
@@ -54,7 +57,13 @@ const Card = ({
   };
 
   const showCartButton = showAddToCartButton => {
-    return showAddToCartButton && <Btn onClick={addToCart}>Add to Card</Btn>;
+    return (
+      showAddToCartButton && (
+        <Btn onClick={addToCart}>
+          <FontAwesomeIcon icon={faCartPlus} />
+        </Btn>
+      )
+    );
   };
 
   const showRemoveButton = showRemoveProductButton => {
@@ -100,9 +109,11 @@ const Card = ({
   };
 
   return (
-    <Container to={`/product/${product._id}`}>
+    <Container>
       {shouldRedirect(redirect)}
-      <ShowImage item={product} url="product" />
+      <Link to={`/product/${product._id}`}>
+        <ShowImage item={product} url="product" />
+      </Link>
       <Heading3>{product.name}</Heading3>
       <Price>${product.price}</Price>
       <br />
