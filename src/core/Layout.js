@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Menu from "./Menu";
+import "reset-css";
 
 const Layout = ({
   title = "Title",

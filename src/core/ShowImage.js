@@ -6,7 +6,8 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: 0;
-  padding-top: 100%;
+  padding-top: 140%;
+  margin-bottom: 1rem;
   overflow: hidden;
   background-color: #000;
 `;

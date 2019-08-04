@@ -4,11 +4,32 @@ import styled from "styled-components";
 import ShowImage from "./ShowImage";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
 
-const Container = styled.div``;
+const Container = styled(Link)`
+  width: 25%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 2rem;
+  &:link {
+    text-decoration: none;
+  }
+`;
+
+const Heading3 = styled.h3`
+  display: inline-block;
+  font-size: 1.3rem;
+  color: #000;
+`;
+
+const Price = styled.p`
+  float: right;
+  font-size: 1.3rem;
+  color: #000;
+`;
 
 const Card = ({
   product,
   showAddToCartButton = true,
+  showQuantity = true,
   cartUpdate = false,
   showRemoveProductButton = false
 }) => {
@@ -76,19 +97,17 @@ const Card = ({
   };
 
   return (
-    <Link to={`/product/${product._id}`} className="mb-2">
-      <Container>
-        {shouldRedirect(redirect)}
-        <ShowImage item={product} url="product" />
-        <h3>{product.name}</h3>
-        {showStock(product.quantity)}
-        <p>${product.price}</p>
-        <br />
-        {showCartButton(showAddToCartButton)}
-        {showRemoveButton(showRemoveProductButton)}
-        {showCartUpdateOptions(cartUpdate)}
-      </Container>
-    </Link>
+    <Container to={`/product/${product._id}`}>
+      {shouldRedirect(redirect)}
+      <ShowImage item={product} url="product" />
+      {showQuantity && showStock(product.quantity)}
+      <Heading3>{product.name}</Heading3>
+      <Price>${product.price}</Price>
+      <br />
+      {showCartButton(showAddToCartButton)}
+      {showRemoveButton(showRemoveProductButton)}
+      {showCartUpdateOptions(cartUpdate)}
+    </Container>
   );
 };
 export default Card;
