@@ -19,7 +19,7 @@ const Cart = () => {
         <hr />
         {items.map((product, i) => (
           <Card
-            key={i}
+            key={product._id}
             product={product}
             showAddToCartButton={false}
             cartUpdate={true}

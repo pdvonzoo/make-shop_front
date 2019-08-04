@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import styled from "styled-components";
 import Layout from "../core/Layout";
 import { signin, authenticate, isAuthenticated } from "../auth";
+
+const ToSignUp = styled(Link)`
+  margin-left: 1rem;
+`;
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -59,6 +64,7 @@ const Signin = () => {
       <button onClick={clickSubmit} className="btn btn-primary">
         Submit
       </button>
+      <ToSignUp to="/signup">Signup</ToSignUp>
     </form>
   );
 
