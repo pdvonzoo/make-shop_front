@@ -1,6 +1,7 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Menu from "./Menu";
-import "../styles.css";
+import "reset-css";
 
 const Layout = ({
   title = "Title",
@@ -10,10 +11,11 @@ const Layout = ({
 }) => (
   <div>
     <Menu />
-    <div className="jumbotron">
-      <h2>{title}</h2>
-      <p className="lead">{description}</p>
-    </div>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+    </Helmet>
     <div className={className}>{children}</div>
   </div>
 );

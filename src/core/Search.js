@@ -1,50 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { getCategories, list } from "./apiCore";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { list } from "./apiCore";
 import Card from "./Card";
 
-const Search = () => {
+const SearchContainer = styled.div`
+  padding-top: 1rem;
+  height: 8rem;
+  background-color: #fbebcd;
+`;
+
+const Form = styled.form`
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  height: 6rem;
+  float: right;
+`;
+
+const Input = styled.input`
+  width: 17rem;
+  height: 100%;
+  padding-left: 1rem;
+  font-size: 1.1rem;
+  border: 1px solid #000;
+  background-color: unset;
+  outline: none;
+`;
+
+const Btn = styled.button`
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: unset;
+  border: 0;
+  font-size: 1.1rem;
+`;
+
+const Search = ({ history }) => {
   const [data, setData] = useState({
-    categories: [],
-    category: "",
     search: "",
     results: [],
     searched: false
   });
 
-  const { categories, category, search, results, searched } = data;
-
-  const loadCategories = () => {
-    getCategories().then(data => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setData({ ...data, categories: data });
-      }
-    });
-  };
-
-  useEffect(() => {
-    loadCategories();
-  }, []);
+  const { search, results, searched } = data;
 
   const searchData = () => {
     // console.log(search, category);
     if (search) {
-      list({ search: search || undefined, category: category }).then(
-        response => {
-          if (response.error) {
-            console.log(response.error);
-          } else {
-            setData({ ...data, results: response, searched: true });
-          }
+      list({ search: search || undefined, category: "All" }).then(response => {
+        if (response.error) {
+          console.log(response.error);
+        } else {
+          setData({ ...data, results: response, searched: true });
         }
-      );
+      });
     }
   };
 
   const searchSubmit = e => {
     e.preventDefault();
     searchData();
+    history.push(`/shop/${search}`);
   };
 
   const handleChange = name => event => {
@@ -66,46 +87,31 @@ const Search = () => {
         <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
         <div className="row">
           {results.map((product, i) => (
-            <Card key={i} product={product} />
+            <Card key={product._id} product={product} />
           ))}
         </div>
       </div>
     );
   };
   const searchForm = () => (
-    <form onSubmit={searchSubmit}>
-      <span className="input-group-text">
-        <div className="input-group input-group-lg">
-          <div className="input-group-prepend">
-            <select className="btn mr-2" onChange={handleChange("category")}>
-              <option value="All">All</option>
-              {categories.map((c, i) => (
-                <option key={i} value={c._id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <input
-            type="search"
-            className="form-control"
-            onChange={handleChange("search")}
-            placeholder="Search by name"
-          />
-        </div>
-        <div className="btn input-group-append" style={{ border: "none" }}>
-          <button className="input-group-text">Search</button>
-        </div>
-      </span>
-    </form>
+    <Form onSubmit={searchSubmit}>
+      <Input
+        type="search"
+        onChange={handleChange("search")}
+        placeholder="Search by name"
+      />
+      <Btn>
+        <FontAwesomeIcon icon={faSearch} />
+      </Btn>
+    </Form>
   );
 
   return (
-    <div className="row">
-      <div className="container mb-3">{searchForm()}</div>
-      <div className="container-fluid mb-3">{searchedProducts(results)}</div>
+    <div>
+      <SearchContainer>{searchForm()}</SearchContainer>
+      {/* <div>{searchedProducts(results)}</div> */}
     </div>
   );
 };
 
-export default Search;
+export default withRouter(Search);

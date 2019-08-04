@@ -44,7 +44,7 @@ const Checkout = ({ products }) => {
     setData({ ...data, address: event.target.value });
   };
 
-  const getTotal = () => {
+  const getTotal = products => {
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);

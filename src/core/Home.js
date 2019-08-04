@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import Layout from "./Layout";
 import { getProducts } from "./apiCore";
 import Card from "./Card";
-import Search from "./Search";
+
+const CardList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const Heading2 = styled.h2`
+  padding-left: 1rem;
+  margin: 4rem 0 2rem;
+  font-size: 1.4rem;
+`;
 
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
@@ -10,7 +22,7 @@ const Home = () => {
   const [error, setError] = useState(false);
 
   const loadProductBySell = () => {
-    getProducts("sold").then(data => {
+    getProducts({ sortBy: "sold", limit: 4 }).then(data => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -20,7 +32,7 @@ const Home = () => {
   };
 
   const loadProductByArrival = () => {
-    getProducts("createdAt").then(data => {
+    getProducts({ sortBy: "createdAt", limit: 4 }).then(data => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -39,24 +51,28 @@ const Home = () => {
       description="Node React E-commnerce App"
       className="container-fluid"
     >
-      <Search />
-      <h2 className="mb-4">New Arrivals</h2>
-      <div className="row">
+      <Heading2>Recently Added</Heading2>
+      <CardList>
         {productsByArrival.map((product, i) => (
-          <div className="col-4 mb-3">
-            <Card key={i} product={product} />
-          </div>
+          <Card
+            key={product._id}
+            product={product}
+            showAddToCartButton={false}
+            showQuantity={false}
+          />
         ))}
-      </div>
-
-      <h2 className="mb-4">Best Sellers</h2>
-      <div className="row">
-        {productsBySell.map((product, i) => (
-          <div className="col-4 mb-3">
-            <Card key={i} product={product} />
-          </div>
+      </CardList>
+      <Heading2>Best Sellers</Heading2>
+      <CardList>
+        {productsBySell.map(product => (
+          <Card
+            key={product._id}
+            product={product}
+            showAddToCartButton={false}
+            showQuantity={false}
+          />
         ))}
-      </div>
+      </CardList>
     </Layout>
   );
 };

@@ -1,30 +1,48 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import ShowImage from "./ShowImage";
-import moment from "moment";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
+
+const Container = styled.div`
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: 2rem;
+  &:link {
+    text-decoration: none;
+  }
+`;
+
+const Heading3 = styled.h3`
+  display: inline-block;
+  font-size: 1.3rem;
+  color: #000;
+`;
+
+const Price = styled.p`
+  float: right;
+  font-size: 1.3rem;
+  color: #000;
+`;
+
+const Btn = styled.button`
+  float: right;
+  background-color: unset;
+  border: 0;
+`;
 
 const Card = ({
   product,
-  showViewProductButton = true,
   showAddToCartButton = true,
+  showQuantity = true,
   cartUpdate = false,
   showRemoveProductButton = false
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
-
-  const showViewButton = showViewProductButton => {
-    return (
-      showViewProductButton && (
-        <Link to={`/product/${product._id}`} className="mb-2">
-          <button className="btn btn-outline-primary mt-2 mb-2">
-            View Product
-          </button>
-        </Link>
-      )
-    );
-  };
 
   const addToCart = () => {
     addItem(product, () => {
@@ -41,12 +59,9 @@ const Card = ({
   const showCartButton = showAddToCartButton => {
     return (
       showAddToCartButton && (
-        <button
-          onClick={addToCart}
-          className="btn btn-outline-warning mt-2 mb-2"
-        >
-          Add to Card
-        </button>
+        <Btn onClick={addToCart}>
+          <FontAwesomeIcon icon={faCartPlus} />
+        </Btn>
       )
     );
   };
@@ -65,11 +80,7 @@ const Card = ({
   };
 
   const showStock = quantity => {
-    return quantity > 0 ? (
-      <span className="badge badge-primary badge-pill">In Stock</span>
-    ) : (
-      <span className="badge badge-primary badge-pill">Out of Stock</span>
-    );
+    return quantity > 0 ? <span>In Stock</span> : <span>Out of Stock</span>;
   };
 
   const handleChange = productId => event => {
@@ -98,27 +109,19 @@ const Card = ({
   };
 
   return (
-    <div className="card">
-      <div className="card-header name">{product.name}</div>
-      <div className="card-body">
-        {shouldRedirect(redirect)}
+    <Container>
+      {shouldRedirect(redirect)}
+      <Link to={`/product/${product._id}`}>
         <ShowImage item={product} url="product" />
-        <p className="lead mt-2">{product.description.substring(0, 20)}</p>
-        <p className="black-10">${product.price}</p>
-        <p className="black-9">
-          Category: {product.category && product.category.name}
-        </p>
-        <p className="black-8">
-          Added on a {moment(product.createdAt).fromNow()}
-        </p>
-        {showStock(product.quantity)}
-        <br />
-        {showViewButton(showViewProductButton)}
-        {showCartButton(showAddToCartButton)}
-        {showRemoveButton(showRemoveProductButton)}
-        {showCartUpdateOptions(cartUpdate)}
-      </div>
-    </div>
+      </Link>
+      <Heading3>{product.name}</Heading3>
+      <Price>${product.price}</Price>
+      <br />
+      {showQuantity && showStock(product.quantity)}
+      {showCartButton(showAddToCartButton)}
+      {showRemoveButton(showRemoveProductButton)}
+      {showCartUpdateOptions(cartUpdate)}
+    </Container>
   );
 };
 export default Card;
