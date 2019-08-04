@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { list } from "./apiCore";
@@ -23,7 +24,7 @@ const Input = styled.input`
   width: 17rem;
   height: 100%;
   padding-left: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   border: 1px solid #000;
   background-color: unset;
   outline: none;
@@ -39,7 +40,7 @@ const Btn = styled.button`
   font-size: 1.1rem;
 `;
 
-const Search = () => {
+const Search = ({ history }) => {
   const [data, setData] = useState({
     search: "",
     results: [],
@@ -64,6 +65,7 @@ const Search = () => {
   const searchSubmit = e => {
     e.preventDefault();
     searchData();
+    history.push(`/shop/${search}`);
   };
 
   const handleChange = name => event => {
@@ -85,7 +87,7 @@ const Search = () => {
         <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
         <div className="row">
           {results.map((product, i) => (
-            <Card key={i} product={product} />
+            <Card key={product._id} product={product} />
           ))}
         </div>
       </div>
@@ -107,9 +109,9 @@ const Search = () => {
   return (
     <div>
       <SearchContainer>{searchForm()}</SearchContainer>
-      <div>{searchedProducts(results)}</div>
+      {/* <div>{searchedProducts(results)}</div> */}
     </div>
   );
 };
 
-export default Search;
+export default withRouter(Search);

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 import Layout from "./Layout";
 import { getCategories, getFilteredProducts } from "./apiCore";
 import Card from "./Card";
@@ -7,7 +9,20 @@ import { prices } from "./fixedPrices";
 import RadioBox from "./RadioBox";
 import Search from "./Search";
 
-const Shop = () => {
+const CategoryFilter = styled.ul`
+  display: flex;
+  height: 5rem;
+  align-items: center;
+`;
+
+const PriceFilter = styled.div`
+  width: 70%;
+  margin: 6rem auto 0;
+  padding: 2rem 0;
+  border: 1px solid #000;
+`;
+
+const Shop = ({ match }) => {
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: [] }
   });
@@ -44,13 +59,12 @@ const Shop = () => {
   const loadMore = newFilters => {
     let toSkip = skip + limit;
     getFilteredProducts(toSkip, limit, myFilters.filters).then(data => {
-      console.log(data);
       if (data.error) {
         setError(data.error);
       } else {
         setFilteredResults([...filteredResults, ...data.data]);
         setSize(data.size);
-        setSkip(0);
+        setSkip(data.size);
       }
     });
   };
@@ -103,26 +117,24 @@ const Shop = () => {
       <Search />
       <div className="row">
         <div className="col-3">
-          <ul>
-            <h4>Filter by Category</h4>
-            <Checkbox
-              categories={categories}
-              handleFilters={filters => handleFilters(filters, "category")}
-            />
-          </ul>
-          <h4>Filter by price range</h4>
-          <div>
+          <PriceFilter>
             <RadioBox
               prices={prices}
               handleFilters={filters => handleFilters(filters, "price")}
             />
-          </div>
+          </PriceFilter>
         </div>
         <div className="col-9">
+          <CategoryFilter>
+            <Checkbox
+              categories={categories}
+              handleFilters={filters => handleFilters(filters, "category")}
+            />
+          </CategoryFilter>
           <div className="row">
             {filteredResults.map((product, i) => (
-              <div className="col-4 mb-3">
-                <Card key={i} product={product} />
+              <div className="col-4">
+                <Card key={product._id} product={product} />
               </div>
             ))}
           </div>
@@ -134,4 +146,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default withRouter(Shop);

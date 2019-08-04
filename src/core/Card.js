@@ -26,6 +26,11 @@ const Price = styled.p`
   color: #000;
 `;
 
+const Btn = styled.button`
+  float: right;
+  background-color: unset;
+`;
+
 const Card = ({
   product,
   showAddToCartButton = true,
@@ -49,9 +54,7 @@ const Card = ({
   };
 
   const showCartButton = showAddToCartButton => {
-    return (
-      showAddToCartButton && <button onClick={addToCart}>Add to Card</button>
-    );
+    return showAddToCartButton && <Btn onClick={addToCart}>Add to Card</Btn>;
   };
 
   const showRemoveButton = showRemoveProductButton => {
@@ -100,10 +103,10 @@ const Card = ({
     <Container to={`/product/${product._id}`}>
       {shouldRedirect(redirect)}
       <ShowImage item={product} url="product" />
-      {showQuantity && showStock(product.quantity)}
       <Heading3>{product.name}</Heading3>
       <Price>${product.price}</Price>
       <br />
+      {showQuantity && showStock(product.quantity)}
       {showCartButton(showAddToCartButton)}
       {showRemoveButton(showRemoveProductButton)}
       {showCartUpdateOptions(cartUpdate)}

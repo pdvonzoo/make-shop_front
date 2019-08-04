@@ -17,6 +17,7 @@ const Image = styled.img`
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  width: 100%;
 `;
 
 const ShowImage = ({ item, url }) => (
