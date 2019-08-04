@@ -2,91 +2,79 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
 import { itemTotal } from "./cartHelpers";
+import styled from "styled-components";
 
-const isActive = (history, path) => {
-  if (history.location.pathname === path) {
-    return { color: "#ff9900" };
-  } else {
-    return { color: "#ffffff" };
+const Container = styled.div`
+  padding: 0.5rem 0;
+  background-color: #fce9cd;
+`;
+
+const Nav = styled.ul`
+  display: flex;
+`;
+
+const NavItem = styled.li`
+  & a {
+    font-weight: bold;
+    color: #005b55;
   }
-};
+`;
 
 const Menu = ({ history }) => (
-  <div>
-    <ul className="nav nav-tabs bg-primary">
-      <li className="nav-item">
-        <Link className="nav-link" style={isActive(history, "/")} to="/">
+  <Container>
+    <Nav className="nav">
+      <NavItem className="nav-item">
+        <Link className="nav-link" to="/">
           Home
         </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          className="nav-link"
-          style={isActive(history, "/shop")}
-          to="/shop"
-        >
+      </NavItem>
+      <NavItem className="nav-item">
+        <Link className="nav-link" to="/shop">
           Shop
         </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          className="nav-link"
-          style={isActive(history, "/cart")}
-          to="/cart"
-        >
-          Cart{" "}
+      </NavItem>
+      <NavItem className="nav-item">
+        <Link className="nav-link" to="/cart">
+          Cart
           <sup>
             <small className="cart-badge">{itemTotal()}</small>
           </sup>
         </Link>
-      </li>
+      </NavItem>
       {isAuthenticated() && isAuthenticated().user.role === 0 && (
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            style={isActive(history, "/user/dashboard")}
-            to="/user/dashboard"
-          >
+        <NavItem className="nav-item">
+          <Link className="nav-link" to="/user/dashboard">
             Dashboard
           </Link>
-        </li>
+        </NavItem>
       )}
       {isAuthenticated() && isAuthenticated().user.role === 1 && (
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            style={isActive(history, "/admin/dashboard")}
-            to="/admin/dashboard"
-          >
+        <NavItem className="nav-item">
+          <Link className="nav-link" to="/admin/dashboard">
             Dashboard
           </Link>
-        </li>
+        </NavItem>
       )}
 
       {!isAuthenticated() && (
         <div>
-          <li className="nav-item">
-            <Link
-              className="nav-link"
-              style={isActive(history, "/signin")}
-              to="/signin"
-            >
+          <NavItem className="nav-item">
+            <Link className="nav-link" to="/signin">
               Signin
             </Link>
-          </li>
-          <li className="nav-item">
+          </NavItem>
+          {/* <NavItem className="nav-item">
             <Link
               className="nav-link"
-              style={isActive(history, "/signup")}
               to="/signup"
             >
               Signup
             </Link>
-          </li>
+          </NavItem> */}
         </div>
       )}
       {isAuthenticated() && (
-        <li className="nav-item">
+        <NavItem className="nav-item">
           <span
             className="nav-link"
             style={{ cursor: "pointer", color: "#ffffff" }}
@@ -98,10 +86,10 @@ const Menu = ({ history }) => (
           >
             Signout
           </span>
-        </li>
+        </NavItem>
       )}
-    </ul>
-  </div>
+    </Nav>
+  </Container>
 );
 
 export default withRouter(Menu);
