@@ -45,6 +45,7 @@ const Checkout = ({ products }) => {
   };
 
   const getTotal = products => {
+    if (products === undefined) return;
     return products.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
     }, 0);
