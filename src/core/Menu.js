@@ -6,66 +6,64 @@ import styled from "styled-components";
 
 const Container = styled.div`
   padding: 0.5rem 0;
-  background-color: #fce9cd;
 `;
 
 const Nav = styled.ul`
   display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 const NavItem = styled.li`
+  padding: 0.5rem 1rem;
   & a {
     font-weight: bold;
     color: #005b55;
   }
 `;
 
+const CartNum = styled.small`
+  font-size: 0.8rem;
+  font-weight: bold;
+`;
+
 const Menu = ({ history }) => (
   <Container>
-    <Nav className="nav">
-      <NavItem className="nav-item">
-        <Link className="nav-link" to="/">
-          Home
-        </Link>
+    <Nav>
+      <NavItem>
+        <Link to="/">Home</Link>
       </NavItem>
-      <NavItem className="nav-item">
-        <Link className="nav-link" to="/shop">
-          Shop
-        </Link>
+      <NavItem>
+        <Link to="/shop">Shop</Link>
       </NavItem>
-      <NavItem className="nav-item">
-        <Link className="nav-link" to="/cart">
+      <NavItem>
+        <Link to="/cart">
           Cart
           <sup>
-            <small className="cart-badge">{itemTotal()}</small>
+            <CartNum>{itemTotal()}</CartNum>
           </sup>
         </Link>
       </NavItem>
       {isAuthenticated() && isAuthenticated().user.role === 0 && (
-        <NavItem className="nav-item">
-          <Link className="nav-link" to="/user/dashboard">
-            Dashboard
-          </Link>
+        <NavItem>
+          <Link to="/user/dashboard">Dashboard</Link>
         </NavItem>
       )}
       {isAuthenticated() && isAuthenticated().user.role === 1 && (
-        <NavItem className="nav-item">
-          <Link className="nav-link" to="/admin/dashboard">
-            Dashboard
-          </Link>
+        <NavItem>
+          <Link to="/admin/dashboard">Dashboard</Link>
         </NavItem>
       )}
 
       {!isAuthenticated() && (
         <div>
-          <NavItem className="nav-item">
-            <Link className="nav-link" to="/signin">
-              Signin
-            </Link>
+          <NavItem>
+            <Link to="/signin">Signin</Link>
           </NavItem>
-          {/* <NavItem className="nav-item">
+          {/* <NavItem>
             <Link
-              className="nav-link"
+             
               to="/signup"
             >
               Signup
@@ -74,9 +72,8 @@ const Menu = ({ history }) => (
         </div>
       )}
       {isAuthenticated() && (
-        <NavItem className="nav-item">
+        <NavItem>
           <span
-            className="nav-link"
             style={{ cursor: "pointer", color: "#ffffff" }}
             onClick={() =>
               signout(() => {
