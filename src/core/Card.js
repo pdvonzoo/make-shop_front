@@ -1,30 +1,19 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
+import styled from "styled-components";
 import ShowImage from "./ShowImage";
-import moment from "moment";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
+
+const Container = styled.div``;
 
 const Card = ({
   product,
-  showViewProductButton = true,
   showAddToCartButton = true,
   cartUpdate = false,
   showRemoveProductButton = false
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
-
-  const showViewButton = showViewProductButton => {
-    return (
-      showViewProductButton && (
-        <Link to={`/product/${product._id}`} className="mb-2">
-          <button className="btn btn-outline-primary mt-2 mb-2">
-            View Product
-          </button>
-        </Link>
-      )
-    );
-  };
 
   const addToCart = () => {
     addItem(product, () => {
@@ -40,14 +29,7 @@ const Card = ({
 
   const showCartButton = showAddToCartButton => {
     return (
-      showAddToCartButton && (
-        <button
-          onClick={addToCart}
-          className="btn btn-outline-warning mt-2 mb-2"
-        >
-          Add to Card
-        </button>
-      )
+      showAddToCartButton && <button onClick={addToCart}>Add to Card</button>
     );
   };
 
@@ -65,11 +47,7 @@ const Card = ({
   };
 
   const showStock = quantity => {
-    return quantity > 0 ? (
-      <span className="badge badge-primary badge-pill">In Stock</span>
-    ) : (
-      <span className="badge badge-primary badge-pill">Out of Stock</span>
-    );
+    return quantity > 0 ? <span>In Stock</span> : <span>Out of Stock</span>;
   };
 
   const handleChange = productId => event => {
@@ -98,27 +76,19 @@ const Card = ({
   };
 
   return (
-    <div className="card">
-      <div className="card-header name">{product.name}</div>
-      <div className="card-body">
+    <Link to={`/product/${product._id}`} className="mb-2">
+      <Container>
         {shouldRedirect(redirect)}
         <ShowImage item={product} url="product" />
-        <p className="lead mt-2">{product.description.substring(0, 20)}</p>
-        <p className="black-10">${product.price}</p>
-        <p className="black-9">
-          Category: {product.category && product.category.name}
-        </p>
-        <p className="black-8">
-          Added on a {moment(product.createdAt).fromNow()}
-        </p>
+        <h3>{product.name}</h3>
         {showStock(product.quantity)}
+        <p>${product.price}</p>
         <br />
-        {showViewButton(showViewProductButton)}
         {showCartButton(showAddToCartButton)}
         {showRemoveButton(showRemoveProductButton)}
         {showCartUpdateOptions(cartUpdate)}
-      </div>
-    </div>
+      </Container>
+    </Link>
   );
 };
 export default Card;
