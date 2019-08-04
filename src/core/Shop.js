@@ -99,11 +99,10 @@ const Shop = () => {
     <Layout
       title="Shop Page"
       description="Search and find books of your choice"
-      className="container-fluid"
     >
       <Search />
       <div className="row">
-        <div className="col-4">
+        <div className="col-3">
           <ul>
             <h4>Filter by Category</h4>
             <Checkbox
@@ -119,8 +118,7 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className="col-8">
-          <h2 className="mb-4">Products</h2>
+        <div className="col-9">
           <div className="row">
             {filteredResults.map((product, i) => (
               <div className="col-4 mb-3">

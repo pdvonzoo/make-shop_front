@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   padding: 0.5rem 0;
+  background-color: #fbebcd;
 `;
 
 const Nav = styled.ul`
@@ -17,7 +18,12 @@ const Nav = styled.ul`
 
 const NavItem = styled.li`
   padding: 0.5rem 1rem;
+  cursor: pointer;
   & a {
+    font-weight: bold;
+    color: #005b55;
+  }
+  & span {
     font-weight: bold;
     color: #005b55;
   }
@@ -74,7 +80,6 @@ const Menu = ({ history }) => (
       {isAuthenticated() && (
         <NavItem>
           <span
-            style={{ cursor: "pointer", color: "#ffffff" }}
             onClick={() =>
               signout(() => {
                 history.push("/");
