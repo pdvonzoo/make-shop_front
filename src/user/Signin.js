@@ -28,8 +28,8 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error, loading: false });
+      if (data.err) {
+        setValues({ ...values, error: data.err, loading: false });
       } else {
         authenticate(data, () => {
           setValues({
@@ -71,7 +71,7 @@ const Signin = () => {
   const showError = () => (
     <div
       className="alert alert-danger"
-      style={{ display: error ? "" : "none" }}
+      style={{ display: error ? "block" : "none" }}
     >
       {error}
     </div>
