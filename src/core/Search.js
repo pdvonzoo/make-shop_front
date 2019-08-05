@@ -16,13 +16,11 @@ const Form = styled.form`
   position: relative;
   padding: 1rem;
   display: flex;
-  height: 6rem;
-  float: right;
 `;
 
 const Input = styled.input`
   width: 17rem;
-  height: 100%;
+  height: 4rem;
   padding-left: 1rem;
   font-size: 1.1rem;
   border: 1px solid #000;
@@ -31,10 +29,7 @@ const Input = styled.input`
 `;
 
 const Btn = styled.button`
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  transform: translateX(-110%);
   background-color: unset;
   border: 0;
   font-size: 1.1rem;
@@ -81,18 +76,18 @@ const Search = ({ history }) => {
     }
   };
 
-  const searchedProducts = (results = []) => {
-    return (
-      <div>
-        <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
-        <div className="row">
-          {results.map((product, i) => (
-            <Card key={product._id} product={product} />
-          ))}
-        </div>
-      </div>
-    );
-  };
+  // const searchedProducts = (results = []) => {
+  //   return (
+  //     <div>
+  //       <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
+  //       <div className="row">
+  //         {results.map((product, i) => (
+  //           <Card key={product._id} product={product} />
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // };
   const searchForm = () => (
     <Form onSubmit={searchSubmit}>
       <Input

@@ -33,8 +33,8 @@ const Checkbox = ({ categories, handleFilters }) => {
 
   const isChecked = id => {
     return checked.includes(id)
-      ? { color: "#000", backgroundColor: "#fff" }
-      : { color: "#fff", backgroundColor: "#000" };
+      ? { color: "#fff", backgroundColor: "#000" }
+      : { color: "#000", backgroundColor: "#fff" };
   };
 
   return categories.map((c, i) => (
