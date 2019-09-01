@@ -71,11 +71,6 @@ const Checkout = ({ products }) => {
       .then(data => {
         console.log(data);
         nonce = data.nonce;
-        // console.log(
-        //   "send nonce and total to process: ",
-        //   nonce,
-        //   getTotal(products)
-        // );
         const paymentData = {
           paymentMethodNonce: nonce,
           amount: getTotal(products)
@@ -168,7 +163,7 @@ const Checkout = ({ products }) => {
 
   return (
     <div>
-      <h2>Total: ${getTotal()}</h2>
+      <h2>Total: ${getTotal(products)}</h2>
       {showLoading(data.loading)}
       {showSuccess(data.success)}
       {showError(data.error)}
