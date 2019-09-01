@@ -1,0 +1,8 @@
+.container,
+.container-fluid {
+  margin-top: 2rem;
+}
+
+.btn.btn-outline-warning.mt-2.mb-2 {
+  float: right;
+}
