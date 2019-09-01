@@ -28,8 +28,8 @@ const Signin = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password }).then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.err, loading: false });
+      if (data.error || data.err) {
+        setValues({ ...values, error: data.error || data.err, loading: false });
       } else {
         authenticate(data, () => {
           setValues({
@@ -42,7 +42,7 @@ const Signin = () => {
   };
 
   const signInForm = () => (
-    <form>
+    <form onSubmit={clickSubmit}>
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input
